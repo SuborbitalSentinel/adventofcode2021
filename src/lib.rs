@@ -33,3 +33,16 @@ pub fn as_strings(file: Lines<BufReader<File>>) -> Vec<String> {
     file.map(|l| l.unwrap()).collect()
 }
 
+pub fn invert_binary_string(value: &String) -> String {
+    value.chars().map(|c| if c == '0' { '1' } else { '0' }).collect()
+}
+
+pub trait Extensions {
+    fn ceil_division(&self, divisor: usize) -> usize;
+}
+
+impl Extensions for usize {
+    fn ceil_division(&self, divisor: usize) -> usize {
+        self / divisor + usize::from(self % divisor != 0)
+    }
+}
