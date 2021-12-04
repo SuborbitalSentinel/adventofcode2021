@@ -35,7 +35,7 @@ fn part_1(filename: &str) -> isize {
     let mut bit_map = vec![String::new(); lines[0].len()];
     lines.iter().for_each(|l| pivot(&mut bit_map, l));
 
-    bit_map.iter().for_each(|v| match v.matches('1').count() > bit_map[0].len() / 2 {
+    bit_map.iter().for_each(|v| match v.matches('1').count() > v.matches('0').count() {
         true => gamma_rate.push('1'),
         false => gamma_rate.push('0'),
     });
