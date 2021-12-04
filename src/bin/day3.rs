@@ -1,7 +1,6 @@
 use adventofcode::as_strings;
 use adventofcode::invert_binary_string;
 use adventofcode::read_file;
-use adventofcode::Extensions;
 
 fn pivot(bit_map: &mut Vec<String>, line: &str) {
     line.chars().enumerate().for_each(|(i, c)| {
@@ -10,14 +9,12 @@ fn pivot(bit_map: &mut Vec<String>, line: &str) {
 }
 
 fn filter_group(current_group: &Vec<String>, current_index: usize, match_char: fn(&String) -> char) -> String {
-    println!("Current Group: {:?}", current_group);
     if current_group.len() == 1 {
         return current_group[0].clone();
     }
 
     let mut bit_map = vec![String::new(); current_group[0].len()];
     current_group.iter().for_each(|l| pivot(&mut bit_map, l));
-    println!("Current Bit Map: {:?}", bit_map);
 
     let winning_match = match_char(&bit_map[current_index]);
 
@@ -54,10 +51,8 @@ fn part_1(filename: &str) -> isize {
 fn part_2(filename: &str) -> isize {
     let lines = as_strings(read_file(filename));
 
-    let oxygen_gen_rating = filter_group(&lines, 0, |s| if s.matches('1').count() >= s.len().ceil_division(2) { '1' } else { '0' });
-    println!("oxygen: {:?}", oxygen_gen_rating);
-    let co2_scrubber_rating = filter_group(&lines, 0, |s| if s.matches('1').count() <= s.len().ceil_division(2) { '0' } else { '1' });
-    println!("co2: {:?}", co2_scrubber_rating);
+    let oxygen_gen_rating = filter_group(&lines, 0, |s| if s.matches('1').count() >= s.matches('0').count() { '1' } else { '0' });
+    let co2_scrubber_rating = filter_group(&lines, 0, |s| if s.matches('1').count() >= s.matches('0').count() { '0' } else { '1' });
 
     let oxygen_gen_rating_as_int = isize::from_str_radix(oxygen_gen_rating.as_str(), 2).unwrap();
     let co2_scrubber_rating_as_int = isize::from_str_radix(co2_scrubber_rating.as_str(), 2).unwrap();
