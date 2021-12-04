@@ -11,25 +11,13 @@
 // 0 + 1 + 2 < 1 + 2 + 3 => 0 < 3
 // 1 + 2 + 3 < 2 + 3 + 4 => 1 < 4
 
-use std::fs::File;
-use std::io::BufRead;
-use std::io::BufReader;
-use std::io::Lines;
 
-fn read_file(filename: &str) -> Lines<BufReader<File>> {
-    let file = File::open(filename).expect("file not found");
-    BufReader::new(file).lines()
-}
 
-fn as_ints(file: Lines<BufReader<File>>) -> Vec<i32> {
-    file.map(|l| l.expect("could not parse line"))
-        .map(|l| l.parse::<i32>())
-        .map(|n| n.expect("could not parse string to int"))
-        .collect()
-}
+use adventofcode::read_file;
+use adventofcode::as_ints;
 
-fn part_1() -> i32 {
-    let lines = as_ints(read_file("input.txt"));
+fn part_1(filename: &str) -> i32 {
+    let lines = as_ints(read_file(filename));
     let mut number_of_increases = 0;
     let mut previous_number = lines[0];
     for number in &lines[1..] {
@@ -42,8 +30,8 @@ fn part_1() -> i32 {
     number_of_increases
 }
 
-fn part_2() -> i32 {
-    let lines = as_ints(read_file("input.txt"));
+fn part_2(filename: &str) -> i32 {
+    let lines = as_ints(read_file(filename));
     let max_lines = lines.len();
     let mut number_of_increases = 0;
     for (i, number) in lines.iter().enumerate() {
@@ -55,6 +43,6 @@ fn part_2() -> i32 {
 }
 
 fn main() {
-    println!("Number of increases part1: {:?}", part_1());
-    println!("Number of increases part2: {:?}", part_2());
+    println!("Number of increases part1: {:?}", part_1("input/1_input.txt"));
+    println!("Number of increases part2: {:?}", part_2("input/1_input.txt"));
 }
