@@ -3,6 +3,10 @@ use std::io::BufRead;
 use std::io::BufReader;
 use std::io::Lines;
 
+pub fn atoi(input: &str) -> isize {
+    input.parse::<isize>().unwrap()
+}
+
 pub fn read_file(filename: &str) -> Lines<BufReader<File>> {
     let file = File::open(filename).expect("file not found");
     BufReader::new(file).lines()
